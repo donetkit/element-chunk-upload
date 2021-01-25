@@ -29,11 +29,12 @@
     </ul>
     <div class="upload-demo">
       <yl-upload
-        action="https://127.0.0.1/chunk/upload/file"
+         action="http://192.168.5.8:8010/v8/upload/file"
         :data="chunkData"
         :on-success="handleSuccess"
+        :on-error="handleError"
         :chunk-size="1024 * 1024 * 3"
-        :thread="4"
+        :thread="1"
       >
         <el-button size="small" type="primary">点击上传</el-button>
         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -53,21 +54,20 @@ export default {
   methods:{
     chunkData(option){
       return{
-        size: option.fileSize, // 总文件大小
-        chunks: option.chunkTotal, // 所有切片数量
-        chunk: option.chunkIndex,// 当前切片下标
-        md5: option.chunkHash, // 单个切片hash
-        filename: option.fileName, // 文件名
+        fileSize: option.fileSize, // 总文件大小   /chunk/upload/file"
+        chunks: option.chunks, // 所有切片数量
+        chunk: option.chunk,// 当前切片下标
+        chunkHash: option.chunkHash, // 单个切片hash  /v8/upload/file"
+        fileName: option.fileName, // 文件名
         fileHash: option.fileHash // 整个文件hash
       }
     },
-    handleSuccess(response, file, fileList) {
-       console.log("===================");
-      //文件上传成功 
-      console.log(file);
+    handleSuccess(response) {
       console.log(response);
-      console.log(fileList);
     },
+    handleError(response){
+       console.log(response);
+    }
   }
 }
 </script>
